@@ -116,9 +116,11 @@ class TaskScheduler:
         """
         downloader = Downloader(cookies, save_dir)
         block_num = len(self.photo_infos) // block_size
-        for block_idx in tqdm(range(block_num)):
+        for block_idx in tqdm(range(block_num + 1)):
             target_photos = self.photo_infos[block_idx * block_size:(block_idx + 1) * block_size]
-            asyncio.run(downloader.download(target_photos))
+           # asyncio.run(downloader.download(target_photos))
+            loop = asyncio.get_event_loop()
+            loop.run_until_complete(downloader.download(target_photos))
 
 
 class Downloader:
